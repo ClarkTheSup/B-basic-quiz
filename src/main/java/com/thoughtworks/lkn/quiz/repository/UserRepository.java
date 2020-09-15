@@ -2,6 +2,7 @@ package com.thoughtworks.lkn.quiz.repository;
 
 import com.thoughtworks.lkn.quiz.domain.Education;
 import com.thoughtworks.lkn.quiz.domain.User;
+import com.thoughtworks.lkn.quiz.dto.EducationDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,5 +35,12 @@ public class UserRepository {
             user.setId((long) userList.size());
         }
         userList.add(user);
+    }
+
+    public void saveEducation(Education education) {
+        User user = findUserById(education.getUserId());
+        if (user != null) {
+            user.getEducationList().add(education);
+        }
     }
 }

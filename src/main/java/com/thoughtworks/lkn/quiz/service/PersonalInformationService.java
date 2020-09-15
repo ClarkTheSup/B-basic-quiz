@@ -54,7 +54,18 @@ public class PersonalInformationService {
                 .age(userDto.getAge())
                 .avatar(userDto.getAvatar())
                 .description(userDto.getDescription())
+                .educationList(new ArrayList<>())
                 .build();
         userRepository.save(user);
+    }
+
+    public void addEducation(Long user_id, EducationDto educationDto) {
+        Education education = Education.builder()
+                .description(educationDto.getDescription())
+                .title(educationDto.getTitle())
+                .year(educationDto.getYear())
+                .userId(user_id)
+                .build();
+        userRepository.saveEducation(education);
     }
 }

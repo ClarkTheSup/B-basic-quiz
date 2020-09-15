@@ -35,4 +35,10 @@ public class PersonalInformationController {
         personalInformationService.createUser(userDto);
     }
 
+    @PostMapping("/users/{user_id}/educations")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addEducation(@PathVariable Long user_id, @RequestBody @Valid EducationDto educationDto) {
+        personalInformationService.addEducation(user_id, educationDto);
+    }
+
 }
