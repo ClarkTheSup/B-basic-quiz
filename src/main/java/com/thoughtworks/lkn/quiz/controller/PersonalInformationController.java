@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @Validated
+@CrossOrigin
 public class PersonalInformationController {
     private final PersonalInformationService personalInformationService;
 

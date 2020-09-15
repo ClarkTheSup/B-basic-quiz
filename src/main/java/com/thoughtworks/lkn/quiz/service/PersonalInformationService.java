@@ -4,10 +4,14 @@ import com.thoughtworks.lkn.quiz.domain.Education;
 import com.thoughtworks.lkn.quiz.domain.User;
 import com.thoughtworks.lkn.quiz.dto.EducationDto;
 import com.thoughtworks.lkn.quiz.dto.UserDto;
+import com.thoughtworks.lkn.quiz.exception.UserNotFoundException;
+import com.thoughtworks.lkn.quiz.exception.Error;
 import com.thoughtworks.lkn.quiz.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,8 +30,19 @@ public class PersonalInformationService {
                     .age(user.getAge()).avatar(user.getAvatar())
                     .description(user.getDescription()).name(user.getName())
                     .build();
+            return userDto;
+        } else {
+            Date date = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+            String errorDate = simpleDateFormat.format(date);
+            String message = "用户不存在";
+            Error error = Error.builder()
+                    .error("Not Found").message(message)
+                    .status(404).timeStamp(errorDate)
+                    .build();
+            throw new UserNotFoundException(error);
         }
-        return userDto;
+
     }
 
     public List<EducationDto> findUserEducationsById(Long id) {
