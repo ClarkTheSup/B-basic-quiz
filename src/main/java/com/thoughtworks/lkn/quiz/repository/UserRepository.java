@@ -39,6 +39,7 @@ public class UserRepository {
     }
 
     public User findUserById(Long id) {
+        // GTB: - 用了 Optional 的话，下面这段代码的地道写法不是这样，再深入学习一下 Optional API
         Optional<User> optionalUser = userList.stream().filter(user -> user.getId().equals(id)).findFirst();
         User user = null;
         if (optionalUser.isPresent()){
@@ -67,6 +68,7 @@ public class UserRepository {
 
     public void save(User user) {
         if (userList.isEmpty()) {
+            // GTB: - 为啥要 Long.parseLong("0")？，1L 不行吗？
             user.setId(Long.parseLong("0"));
         } else {
             user.setId((long) userList.size());
@@ -76,6 +78,7 @@ public class UserRepository {
 
     public void saveEducation(Education education) {
         User user = findUserById(education.getUserId());
+        // GTB: - 如果 user 不存在，什么响应都没有吗？还是返回 201？
         if (user != null) {
             user.getEducationList().add(education);
         }

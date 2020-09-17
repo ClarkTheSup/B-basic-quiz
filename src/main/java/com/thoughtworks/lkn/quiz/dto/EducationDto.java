@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+// GTB: + 有单独的 Dto，不错
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
