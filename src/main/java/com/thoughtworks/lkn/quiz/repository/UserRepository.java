@@ -4,6 +4,7 @@ import com.thoughtworks.lkn.quiz.domain.Education;
 import com.thoughtworks.lkn.quiz.domain.User;
 import com.thoughtworks.lkn.quiz.exception.Error;
 import com.thoughtworks.lkn.quiz.exception.UserNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class UserRepository {
     private final List<User> userList = UserListSingletonFactory.getInstance();
 

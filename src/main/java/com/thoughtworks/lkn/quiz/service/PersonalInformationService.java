@@ -19,44 +19,38 @@ public class PersonalInformationService {
     private UserRepository userRepository;
 
     public PersonalInformationService() {
-        // GTB: - 应该注入而不是自己 new 实例
-        this.userRepository = new UserRepository();
+    }
+
+    public PersonalInformationService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public UserDto findUserById(Long id) {
         User user = userRepository.findUserById(id);
-        // GTB: - 直接在 if 里 return userDto 就行了，不用在外面先定义一遍。
-        UserDto userDto = null;
         if (user != null) {
-            // GTB: - 转换的逻辑可以抽取到其它工具类中完成
-            userDto = UserDto.builder().id(user.getId())
+            UserDto userDto = UserDto.builder().id(user.getId())
                     .age(user.getAge()).avatar(user.getAvatar())
                     .description(user.getDescription()).name(user.getName())
                     .build();
             return userDto;
-        } else {
-            // GTB: - 这里不再需要用 else 子句包一层，直接写就好
-            // GTB: - UserNotFoundException的输入只要有 status 和 message 就够了，不需要给整个 error 给它
-            Date date = new Date();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-            String errorDate = simpleDateFormat.format(date);
-            String message = "用户不存在";
-            Error error = Error.builder()
-                    .error("Not Found").message(message)
-                    .status(404).timeStamp(errorDate)
-                    .build();
-            throw new UserNotFoundException(error);
         }
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+        String errorDate = simpleDateFormat.format(date);
+        String message = "用户不存在";
+        Error error = Error.builder()
+                .error("Not Found").message(message)
+                .status(404).timeStamp(errorDate)
+                .build();
+        throw new UserNotFoundException(error);
 
     }
 
     public List<EducationDto> findUserEducationsById(Long id) {
         List<Education> educationList = userRepository.findUserEducationsById(id);
         if (educationList == null) {
-            // GTB: - 如果用户没有 educations，应该返回的是 [] 而不是 null
-            return null;
+            return new ArrayList<EducationDto>();
         }
-        // GTB: - 转换的逻辑可以抽取到其它工具类中完成
         List<EducationDto> educationDtoList = new ArrayList<>();
         educationList.forEach(education -> {
             EducationDto educationDto = EducationDto.builder()
@@ -71,7 +65,6 @@ public class PersonalInformationService {
     }
 
     public void createUser(UserDto userDto) {
-        // GTB: - 转换的逻辑可以抽取到其它工具类中完成
         User user = User.builder()
                 .name(userDto.getName())
                 .age(userDto.getAge())
@@ -83,7 +76,6 @@ public class PersonalInformationService {
     }
 
     public void addEducation(Long user_id, EducationDto educationDto) {
-        // GTB: - 转换的逻辑可以抽取到其它工具类中完成
         Education education = Education.builder()
                 .description(educationDto.getDescription())
                 .title(educationDto.getTitle())
