@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @Validated
 @CrossOrigin
-// GTB: 这个PersonalInformation的明明有点怪怪的，可以直接就叫 UserController
 public class PersonalInformationController {
     private final PersonalInformationService personalInformationService;
 
