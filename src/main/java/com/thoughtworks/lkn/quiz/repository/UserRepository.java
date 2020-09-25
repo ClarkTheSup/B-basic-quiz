@@ -80,9 +80,9 @@ public class UserRepository {
 
     public void saveEducation(Education education) {
         User user = findUserById(education.getUserId());
-        // GTB: - 如果 user 不存在，什么响应都没有吗？还是返回 201？
         if (user != null) {
             user.getEducationList().add(education);
         }
+        throw new UserNotFoundException(Error.builder().build());
     }
 }
